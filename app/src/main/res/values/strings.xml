@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Print Assistant</string>
+    <string name="search_Bluetooth">搜索蓝牙</string>
+    <string name="text_loading">正在搜索设备</string>
+</resources>
