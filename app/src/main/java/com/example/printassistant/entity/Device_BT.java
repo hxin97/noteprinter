@@ -1,4 +1,4 @@
-package entity;
+package com.example.printassistant.entity;
 
 import android.bluetooth.BluetoothDevice;
 

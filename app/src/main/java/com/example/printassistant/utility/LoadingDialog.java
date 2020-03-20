@@ -1,4 +1,4 @@
-package utility;
+package com.example.printassistant.utility;
 
 import android.app.Dialog;
 import android.content.Context;
