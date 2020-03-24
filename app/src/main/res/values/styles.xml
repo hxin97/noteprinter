@@ -14,4 +14,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="MyPopupWindowAnimStyle">
+        <!-- 指定弹出窗口的动画 -->
+        <item name="android:windowEnterAnimation">@anim/anim_pop_show</item>
+        <!-- 指定关闭窗口的动画 -->
+        <item name="android:windowExitAnimation">@anim/anim_pop_hide</item>
+    </style>
 </resources>

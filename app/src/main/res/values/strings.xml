@@ -2,5 +2,17 @@
     <string name="app_name">Print Assistant</string>
     <string name="search_Bluetooth">搜索蓝牙</string>
     <string name="text_loading">正在搜索设备</string>
-    <string name="bottom_sheet_text">发现蓝牙设备 %d 台</string>
+    <string name="popup_window_text_found">发现蓝牙设备 %d 台</string>
+    <string name="popup_window_text_found_no_device">找不到蓝牙设备</string>
+    <string name="popup_window_text_scanning">正在扫描蓝牙设备…</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="nav_set_bold">设置粗体</string>
+    <string name="nav_set_underline">设置下划线</string>
+    <string name="nav_set_time">时间标签</string>
+    <string name="nav_print_setting">打印设置</string>
+    <string name="edit_hint">开始编辑：</string>
+    <string name="popup_window_button_default">开始扫描</string>
+    <string name="popup_window_button_scanning">取消扫描</string>
+    <string name="popup_window_button_connecting">断开连接</string>
 </resources>

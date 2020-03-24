@@ -19,6 +19,10 @@ public class PrintUtil {
     private static int e = 0;
     public static boolean INTERRUPTER = false;    //用于中断打印
 
+    public static boolean BOLD_SETTING = false;
+    public static boolean UNDERLINE_SETTING = false;
+    public static boolean TIME_SETTING = false;
+
     private static final String TAG = "PrintUtil";
 
     public static synchronized int printIt(List<Note> noteList) {

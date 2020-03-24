@@ -10,7 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.printassistant.common.MyKey;
+import com.example.printassistant.data.NoteContainer;
+import com.example.printassistant.entity.Note;
+import com.example.printassistant.task.TaskController;
+import com.example.printassistant.utility.BluetoothUtil;
+import com.example.printassistant.utility.PrintUtil;
 import com.githang.statusbar.StatusBarCompat;
 
 import java.io.BufferedReader;
@@ -24,7 +31,9 @@ import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class EditActivity extends AppCompatActivity {
@@ -35,6 +44,7 @@ public class EditActivity extends AppCompatActivity {
     DateFormat df2;
     String existFileName;
     String fileContent;
+    BottomPopupWindow bottomPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +94,7 @@ public class EditActivity extends AppCompatActivity {
                 content.append(line+"\n");
             }
             content.deleteCharAt(content.length()-1); //删去最后添加的回车键符号
-            fileContent = content.toString();
+            fileContent = (content.toString());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -116,8 +126,10 @@ public class EditActivity extends AppCompatActivity {
                 return -1;
         }
         //如果没有做出修改，则既不做保存，也不做删除。
-        if (data.trim().equals(fileContent.trim())) {
-            return -1;
+        if (fileContent != null) {
+            if (data.trim().equals(fileContent.trim())) {
+                return -1;
+            }
         }
 
         FileOutputStream out = null;
@@ -152,6 +164,23 @@ public class EditActivity extends AppCompatActivity {
         deleteFile(existFileName);
     }
 
+    private void print() {
+        String strText = editText.getText().toString();
+        Log.d("EditActivity", "print: here to check strText.length() = " + strText.length());
+        //打印文字
+        if (strText.length() > 0) {
+            Note note = new Note(MyKey.PRINT_TYPE.TEXT, strText);
+            note.setBold(PrintUtil.BOLD_SETTING);
+            note.setUnderline(PrintUtil.UNDERLINE_SETTING);
+            List<Note> list = new ArrayList<>();
+            list.add(note);
+            NoteContainer noteContainer = new NoteContainer(-1L, "", list);
+            TaskController.getTaskController().startPrintTask(noteContainer);
+        } else {
+            Toast.makeText(EditActivity.this, "！请输入内容", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public String transformTime(String fileName) {
         Date createTime;
         try{
@@ -180,9 +209,13 @@ public class EditActivity extends AppCompatActivity {
                 break;
 
             case R.id.print:
-
-                for (String str : fileList()) {
-                    Log.d("EditActivity", "已保存文件列表 "+str+"\n");
+                if (BluetoothUtil.getInstance().getConnectDevice() == null) {
+                    if (bottomPopupWindow == null) {
+                        bottomPopupWindow = new BottomPopupWindow(EditActivity.this);
+                    }
+                    bottomPopupWindow.showPopupWindow();
+                } else {
+                    print();
                 }
                 break;
 
@@ -192,7 +225,7 @@ public class EditActivity extends AppCompatActivity {
                 tv_createTime.setText(currentTime);
                 break;
 
-            case R.id.home:
+            case android.R.id.home:
                 int rs = save();
                 //0说明发生了变化
                 if (rs == 0) {
@@ -212,6 +245,20 @@ public class EditActivity extends AppCompatActivity {
             setResultBeforeFinish();
         }
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (bottomPopupWindow != null) {
+            bottomPopupWindow.unRegisterScanReceiver();
+            Log.d("EditActivity", "onStop: 已经成功注销监听器");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void setResultBeforeFinish () {

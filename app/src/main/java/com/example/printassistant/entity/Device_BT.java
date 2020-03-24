@@ -9,6 +9,7 @@ public class Device_BT implements Serializable {
     private String deviceName;
     private String deviceAddress;
     private BluetoothDevice device;
+    private boolean connectState = false;
 
     public String getDeviceName(){
         return deviceName;
@@ -32,5 +33,13 @@ public class Device_BT implements Serializable {
 
     public void setDevice(BluetoothDevice device){
         this.device = device;
+    }
+
+    public boolean getConnectState() {
+        return connectState;
+    }
+
+    public void setConnectState(boolean connectState) {
+        this.connectState = connectState;
     }
 }

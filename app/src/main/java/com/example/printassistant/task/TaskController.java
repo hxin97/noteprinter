@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.printassistant.common.MyKey;
 import com.example.printassistant.data.NoteContainer;
 import com.example.printassistant.utility.BluetoothUtil;
 import com.example.printassistant.utility.OnBluetoothListener;
@@ -61,14 +62,22 @@ public class TaskController {
                     case 3:
                         //连接蓝牙设备成功
                         msg = TaskController.this.handler.obtainMessage(1);
-                        msg.arg1 = 1;
+                        msg.arg1 = MyKey.RESULT.COMMON_SUCCESS;
                         TaskController.this.handler.sendMessage(msg);
-                        //send bluetoothState(3)
                         break;
                     case 4:
                         //连接蓝牙设备失败
-
+                        msg = TaskController.this.handler.obtainMessage(1);
+                        msg.arg1 = MyKey.RESULT.COMMON_FAIL;
+                        TaskController.this.handler.sendMessage(msg);
                         break;
+                    case 5:
+                        //连接丢失
+                        msg = TaskController.this.handler.obtainMessage(1);
+                        msg.arg1 = MyKey.RESULT.COMMON_LOST;
+                        TaskController.this.handler.sendMessage(msg);
+                        break;
+                    default:
                 }
             }
         };

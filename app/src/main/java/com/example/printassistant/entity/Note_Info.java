@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
-public class Note_Info implements Serializable, Comparable{
+public class Note_Info implements Serializable, Comparable<Note_Info>{
     private String textContent;
     private Bitmap bitmap;
     private String createTime;
@@ -36,11 +36,10 @@ public class Note_Info implements Serializable, Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        Note_Info oo = (Note_Info)o;
-        if (Long.parseLong(this.createTime) < Long.parseLong(oo.createTime))
+    public int compareTo(Note_Info o) {
+        if (Long.parseLong(this.createTime) < Long.parseLong(o.createTime))
             return 1;
-        else if (this.createTime == oo.createTime)
+        else if (this.createTime == o.createTime)
             return 0;
         else
             return -1;

@@ -1,4 +1,4 @@
-package com.example.printassistant.utility;
+package com.example.printassistant;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.printassistant.R;
-import com.example.printassistant.task.ConnectTask;
-
 import java.util.List;
 
 import com.example.printassistant.entity.Device_BT;
 import com.example.printassistant.task.TaskController;
+import com.example.printassistant.utility.OnConnectListener;
+import com.example.printassistant.utility.PinBluetoothReceiver;
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder> {
 
@@ -26,19 +25,21 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
 
     private OnConnectListener mConnectListener;
 
-    static PinBluetoothReceiver pinBluetoothReceiver;
+    public static PinBluetoothReceiver pinBluetoothReceiver;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         ImageView imageView;
         TextView deviceName;
         TextView deviceAddress;
+        TextView connectState;
 
         private ViewHolder(View view){
             super(view);
             cardView = (CardView)view;
             deviceName = view.findViewById(R.id.device_name);
             deviceAddress = view.findViewById(R.id.device_address);
+            connectState = view.findViewById(R.id.tv_connect_state);
         }
     }
 
@@ -60,6 +61,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Device_BT device_bt = mDeviceList.get(position);
+        if (device_bt.getConnectState()) {
+            holder.connectState.setText("已连接");
+        } else {
+            holder.connectState.setText("");
+        }
         holder.deviceName.setText(device_bt.getDeviceName());
         holder.deviceAddress.setText(device_bt.getDeviceAddress());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +75,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                 TaskController.getTaskController().startConnectTask(device_bt.getDevice(), mConnectListener);
 
                 /**
-                 * 匹配蓝牙，保留
+                 * 匹配蓝牙(保留功能)
                  */
 //                IntentFilter intentFilter = new IntentFilter();
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

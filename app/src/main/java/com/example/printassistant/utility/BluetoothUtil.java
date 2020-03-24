@@ -1,10 +1,10 @@
 package com.example.printassistant.utility;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -52,15 +52,28 @@ public class BluetoothUtil {
 
     public BluetoothUtil(OnBluetoothListener var1) {
         this.bluetoothListener = var1;
-        this.mState = 0;
+        this.mState = STATE_NONE;
     }
-
+    //获取蓝牙工具类的实例
     public static synchronized BluetoothUtil getInstance(){
         if(bluetoothUtil == null) {
             Log.d(TAG, "getInstance: init BluetoothUtil");
             bluetoothUtil = new BluetoothUtil((OnBluetoothListener)null);
         }
         return bluetoothUtil;
+    }
+    //销毁，退出app前执行
+    public synchronized void onDestroy() {
+        if (this.mConnectThread != null) {
+            this.mConnectThread.cancel();
+            this.mConnectThread = null;
+        }
+        if (this.mSocketThread != null) {
+            this.mSocketThread.cancel();
+            this.mSocketThread = null;
+        }
+        bluetoothUtil = null;
+        this.setState(STATE_NONE);
     }
 
 
@@ -84,11 +97,7 @@ public class BluetoothUtil {
     }
 
     public BluetoothDevice getConnectDevice() {
-        if (this.mState == 3){
-            return this.mConnectDevice;
-        }
-        else return null;
-
+        return this.mConnectDevice;
     }
 
      /**
@@ -130,7 +139,7 @@ public class BluetoothUtil {
     /**
      * 扫描蓝牙，通过接收广播获取扫描到的蓝牙
      */
-    public boolean scanBluetooth(Activity activity) {
+    public boolean scanBluetooth(Context activity) {
 
         if (!isBluetoothEnable()) {
             if (openBluetooth()) return scanBluetooth(activity);
@@ -156,7 +165,6 @@ public class BluetoothUtil {
      */
     public void cancelScanBluetooth(){
         if (isSupportBluetooth()) mBluetoothAdapter.cancelDiscovery();
-
     }
 
 
@@ -250,7 +258,7 @@ public class BluetoothUtil {
     }
 
 
-    //连接设备
+    //连接设备,可以连接多个蓝牙设备(mConnectThread没有清除)
     public synchronized void connect (BluetoothDevice device) {
         if (this.mState == STATE_CONNECTING && this.mConnectThread != null) {
             this.mConnectThread.cancel();
@@ -265,12 +273,11 @@ public class BluetoothUtil {
         this.setState(STATE_CONNECTING);
     }
 
-    //断开连接
-    public synchronized void disconnect() {
-
+    public void disConnect () {
+        this.connectionLost();
     }
 
-    private void connectionSucceed(BluetoothSocket socket, BluetoothDevice device) {
+    private void connectionSucceed (BluetoothSocket socket, BluetoothDevice device) {
         if(this.mSocketThread != null) {
             this.mSocketThread.cancel();
             this.mSocketThread = null;
@@ -282,7 +289,7 @@ public class BluetoothUtil {
         this.sendMessage(STATE_CONNECT_SUCCEED, (byte[])null); //3
     }
 
-    private void connectionFailed() {
+    private void connectionFailed () {
         this.sendMessage(STATE_CONNECT_FAILURE,(byte[])null);  //4
         this.mConnectDevice = null;
         this.setState(STATE_NONE);
@@ -295,8 +302,6 @@ public class BluetoothUtil {
             this.mConnectThread.cancel();
             this.mConnectThread = null;
         }
-
-
         this.setState(STATE_NONE);
     }
 
@@ -476,6 +481,7 @@ public class BluetoothUtil {
                     e.printStackTrace();
                     Log.e(TAG, "run: disconnected" );
                     BluetoothUtil.this.connectionLost();
+                    break;
                 }
             }
         }

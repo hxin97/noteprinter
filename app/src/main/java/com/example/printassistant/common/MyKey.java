@@ -6,6 +6,7 @@ public class MyKey {
     public static class RESULT {
         public static final int COMMON_SUCCESS = 1;
         public static final int COMMON_FAIL = -1004;
+        public static final int COMMON_LOST = -1005;
 
         public RESULT(){}
     }
@@ -14,6 +15,8 @@ public class MyKey {
         public static final int TEXT = 1;
         public static final int IMAGE = 2;
 
+
         public PRINT_TYPE(){}
     }
+
 }

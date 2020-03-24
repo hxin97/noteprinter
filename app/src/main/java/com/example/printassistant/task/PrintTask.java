@@ -18,6 +18,8 @@ public class PrintTask {
     private OnConnectListener onPrintListener;
     public static int timeOutCounter;
 
+
+
     private static final String TAG = "PrintTask";
 
     public static PrintTask getPrintTask() {

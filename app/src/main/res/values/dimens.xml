@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="nav_text_size">18sp</dimen>
+    <dimen name="nav_item_padding_top">10dp</dimen>
+    <dimen name="nav_item_padding_left">20dp</dimen>
+</resources>
