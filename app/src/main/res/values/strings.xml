@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Print Assistant</string>
+    <string name="app_name">Note Printer</string>
     <string name="search_Bluetooth">搜索蓝牙</string>
     <string name="text_loading">正在搜索设备</string>
     <string name="popup_window_text_found">发现蓝牙设备 %d 台</string>
@@ -15,4 +15,8 @@
     <string name="popup_window_button_default">开始扫描</string>
     <string name="popup_window_button_scanning">取消扫描</string>
     <string name="popup_window_button_connecting">断开连接</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_print">打印</string>
+    <string name="menu_delete">删除</string>
+    <string name="home_title">我的纸条</string>
 </resources>

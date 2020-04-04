@@ -4,6 +4,7 @@
     <item
         android:id="@+id/device"
         android:title="Device"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:icon="@drawable/printer_toolbar"/>
 
 </menu>

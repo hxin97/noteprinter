@@ -5,13 +5,19 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/theme_blue</item>
+        <item name="actionMenuTextColor">@color/theme_blue</item>
     </style>
     
     <style name="LoadingDialog" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- 设置加载窗口透明和背景变暗 -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="toolbar_blue_theme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!-- 更改toolbar样式 -->
+        <item name="colorControlNormal">@color/theme_blue</item>
     </style>
 
     <style name="MyPopupWindowAnimStyle">

@@ -5,8 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="m_grey">#8A8A8A</color>
     <color name="black">#000000</color>
-    <color name="transparent"></color>
-    <color name="theme_blue">#009ACD</color>
+    <color name="theme_blue">#7EC0EE</color>
     <color name="white">#ffffff</color>
     <color name="default_color">#f7f7f7</color> <!-- 默认背景色 -->
     <color name="light_grey">#d3d3d3</color>

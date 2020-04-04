@@ -4,16 +4,17 @@
 
     <item
         android:id="@+id/save"
-        android:title="Save"
+        android:title="@string/menu_save"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/print"
-        android:title="Print"
+        android:title="@string/menu_print"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/delete"
-        android:title="Delete"
+        android:title="@string/menu_delete"
+        android:icon="@drawable/delete"
         app:showAsAction="never"/>
 </menu>
